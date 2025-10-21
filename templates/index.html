@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Swiss Near</title>
+<!-- Bootstrap & Font Awesome -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+
+<style>
+body {
+    background: linear-gradient(135deg, #FFB6B9, #8BD3C7, #C1F0F6);
+    background-attachment: fixed;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+
+.card {
+    width: 100%;         /* カラム幅いっぱいに */
+    min-height: 100px;   /* 高さを大きめに */
+    border-radius: 30px; /* 丸みを増やす */
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+}
+.card-img-top {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    height: 220px;       /* 写真を大きめ */
+    object-fit: cover;
+}
+
+.rating i { color: #ffb400; }
+</style>
+</head>
+<body>
+<div class="container py-5 text-center">
+  <!-- おしゃれタイトル -->
+  <h1 class="fw-bold display-5 mb-3 grad-text">
+    <span class="hero-emoji">🧸</span> Kid-Friendly Places
+  </h1>
+  <p class="text-muted mb-4">my son's favorite place！</p>
+
+  <!-- ボタン -->
+  <div class="d-flex justify-content-center mb-4">
+    <a href="{{ url_for('add_place') }}" class="btn btn-lg btn-primary rounded-pill shadow">
+      <i class="fa fa-plus"></i> 新規スポットを追加
+    </a>
+  </div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for place in places %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img src="{{ url_for('static', filename='uploads/' + (place['image'] or 'placeholder.jpg')) }}" class="card-img-top" alt="施設画像">
+                <div class="card-body">
+                    <h5 class="card-title">{{ place['name'] }}</h5>
+                    <p class="card-text"><strong>Category:</strong> {{ place['category'] }}</p>
+                    <p class="card-text"><strong>Place:</strong> {{ place['location'] }}</p>
+
+                    <p class="card-text">
+                        {% if place['has_kids_area'] %}<i class="fa fa-child" title="キッズスペースあり"></i>{% endif %}
+                        {% if place['has_diaper_facility'] %}<i class="fa fa-baby" title="オムツ台あり"></i>{% endif %}
+                        {% if place['indoor'] %}<i class="fa fa-house" title="屋内"></i>{% else %}<i class="fa fa-tree" title="屋外"></i>{% endif %}
+                    </p>
+                    <p class="card-text">
+                        <span class="rating">crowded: {{ place['crowd_rating'] }} <i class="fa fa-star"></i></span> |
+                        <span class="rating">for rain: {{ place['rain_friendly'] }} <i class="fa fa-star"></i></span> |
+                        <span class="rating">friend make: {{ place['friendly_rating'] }} <i class="fa fa-star"></i></span>
+                    </p>
+                    <p class="card-text">{{ place['comments'] }}</p>
+                </div>
+                <div class="card-footer text-end">
+                    <a href="{{ url_for('delete_place', place_id=place['id']) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> 削除</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

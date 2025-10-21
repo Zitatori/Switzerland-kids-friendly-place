@@ -1,0 +1,27 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 30px;
+   background: linear-gradient(to bottom right, #ffe3e3, #fff0f5, #e0f7fa);
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+a {
+    color: #3498db;
+    text-decoration: none;
+}

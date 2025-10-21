@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>新しいスポットを追加</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+ <style>
+    /* これを追加すると外部CSSより優先される */
+    body {
+        background: linear-gradient(to bottom right, #ffe3e3, #fff0f5, #e0f7fa);
+        background-attachment: fixed;
+        font-family: 'Noto Sans JP', sans-serif;
+    }
+    </style>
+<body>
+<div class="container mt-5">
+    <h1 class="mb-4">新しい子連れ向けスポットを追加</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label>施設画像</label>
+<input type="file" name="image" accept="image/*">
+
+            <label class="form-label">名前</label>
+            <input type="text" class="form-control" name="name" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">カテゴリ</label>
+            <select class="form-select" name="category" required>
+                <option value="公園">公園</option>
+                <option value="遊び場">playground</option>
+                <option value="カフェ・レストラン">カフェ・レストラン</option>
+                <option value="博物館・科学館・動物園">博物館・科学館・動物園</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">場所</label>
+            <input type="text" class="form-control" name="location" required>
+        </div>
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" name="has_kids_area">
+            <label class="form-check-label">キッズスペースあり</label>
+        </div>
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" name="has_diaper_facility">
+            <label class="form-check-label">オムツ台あり</label>
+        </div>
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" name="indoor">
+            <label class="form-check-label">屋内</label>
+        </div>
+
+        <div class="row g-3 mb-3">
+            <div class="col-md-3">
+                <label class="form-label">所要時間(分)</label>
+                <input type="number" class="form-control" name="travel_time_minutes" min="1" required>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">混雑度(1〜5)</label>
+                <input type="number" class="form-control" name="crowd_rating" min="1" max="5" required>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">雨天対応(1〜5)</label>
+                <input type="number" class="form-control" name="rain_friendly" min="1" max="5" required>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">フレンドリー度(1〜5)</label>
+                <input type="number" class="form-control" name="friendly_rating" min="1" max="5" required>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-3">
+            <div class="col-md-3">
+                <label class="form-label">安全性(1〜5)</label>
+                <input type="number" class="form-control" name="safety_rating" min="1" max="5" required>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">清潔さ(1〜5)</label>
+                <input type="number" class="form-control" name="cleanliness_rating" min="1" max="5" required>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">コメント</label>
+            <textarea class="form-control" name="comments"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success">追加</button>
+        <a href="{{ url_for('home') }}" class="btn btn-secondary">一覧に戻る</a>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
