@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>スポット編集</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 30px auto;
+            padding: 0 16px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+        .checkbox-row {
+            margin-bottom: 12px;
+        }
+        .checkbox-row input {
+            width: auto;
+            margin-right: 8px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 16px;
+            text-decoration: none;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            color: #222;
+            background: #f7f7f7;
+            cursor: pointer;
+        }
+        img {
+            max-width: 320px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>スポット編集</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        <label>名前</label>
+        <input type="text" name="name" value="{{ place['name'] or '' }}" required>
+
+        <label>カテゴリ</label>
+        <input type="text" name="category" value="{{ place['category'] or '' }}" required>
+
+        <label>場所</label>
+        <input type="text" name="location" value="{{ place['location'] or '' }}" required>
+
+        <div class="checkbox-row">
+            <label><input type="checkbox" name="has_kids_area" {% if place['has_kids_area'] %}checked{% endif %}> キッズスペースあり</label>
+        </div>
+
+        <div class="checkbox-row">
+            <label><input type="checkbox" name="has_diaper_facility" {% if place['has_diaper_facility'] %}checked{% endif %}> おむつ替え設備あり</label>
+        </div>
+
+        <div class="checkbox-row">
+            <label><input type="checkbox" name="indoor" {% if place['indoor'] %}checked{% endif %}> 屋内</label>
+        </div>
+
+        <label>所要時間（分）</label>
+        <input type="number" name="travel_time_minutes" min="0" value="{{ place['travel_time_minutes'] or 0 }}">
+
+        <label>混雑度</label>
+        <input type="number" name="crowd_rating" min="0" max="5" value="{{ place['crowd_rating'] or 0 }}">
+
+        <label>雨の日向き</label>
+        <input type="number" name="rain_friendly" min="0" max="5" value="{{ place['rain_friendly'] or 0 }}">
+
+        <label>親しみやすさ</label>
+        <input type="number" name="friendly_rating" min="0" max="5" value="{{ place['friendly_rating'] or 0 }}">
+
+        <label>安全性</label>
+        <input type="number" name="safety_rating" min="0" max="5" value="{{ place['safety_rating'] or 0 }}">
+
+        <label>清潔さ</label>
+        <input type="number" name="cleanliness_rating" min="0" max="5" value="{{ place['cleanliness_rating'] or 0 }}">
+
+        <label>コメント</label>
+        <textarea name="comments" rows="5">{{ place['comments'] or '' }}</textarea>
+
+        {% if place['image'] %}
+            <p>現在の画像</p>
+            <img src="{{ url_for('static', filename='uploads/' + place['image']) }}" alt="{{ place['name'] }}">
+        {% endif %}
+
+        <label>画像を差し替える</label>
+        <input type="file" name="image" accept="image/*">
+
+        <button class="btn" type="submit">更新する</button>
+        <a class="btn" href="{{ url_for('home') }}">戻る</a>
+    </form>
+</body>
+</html>

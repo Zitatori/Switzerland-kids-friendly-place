@@ -77,6 +77,10 @@ body {
                     <p class="card-text">{{ place['comments'] }}</p>
                 </div>
                 <div class="card-footer text-end">
+                    <a href="{{ url_for('edit_place', place_id=place['id']) }}"
+                       class="btn btn-warning btn-sm">
+                        <i class="fa fa-pen"></i> 編集
+                    </a>
                     <a href="{{ url_for('delete_place', place_id=place['id']) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> 削除</a>
                 </div>
             </div>

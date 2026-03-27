@@ -27,6 +27,12 @@ with st.sidebar:
 
     q = st.text_input("キーワード（name / comments / URLを含む場合はnoteに入れて）", "")
 
+    sort_by = st.selectbox(
+        "並び順",
+        ["おすすめ順（そのまま）", "近い順（分）", "遠い順（分）"],
+        index=0
+    )
+
 mask = pd.Series([True] * len(df))
 if city != "全部":
     mask &= (df["city"] == city)
@@ -43,6 +49,17 @@ if q.strip():
     mask &= hay.str.contains(ql)
 
 view = df[mask].copy()
+
+if "travel_time_minutes" in view.columns:
+    view["travel_time_minutes"] = pd.to_numeric(
+        view["travel_time_minutes"], errors="coerce"
+    )
+
+if sort_by == "近い順（分）" and "travel_time_minutes" in view.columns:
+    view = view.sort_values(by="travel_time_minutes", ascending=True, na_position="last")
+elif sort_by == "遠い順（分）" and "travel_time_minutes" in view.columns:
+    view = view.sort_values(by="travel_time_minutes", ascending=False, na_position="last")
+
 st.subheader(f"検索結果：{len(view)}件")
 
 # ------------ カード描画（画像は DBのimage列ベースで厳密一致） ------------
@@ -58,8 +75,13 @@ def render_card(rec: dict):
 
     # メタ
     meta = []
-    if rec.get("city"): meta.append(f"📍 {rec['city']}")
-    if rec.get("category"): meta.append(f"🏷️ {rec['category']}")
+    if rec.get("city"):
+        meta.append(f"📍 {rec['city']}")
+    if rec.get("category"):
+        meta.append(f"🏷️ {rec['category']}")
+    if rec.get("travel_time_minutes") is not None and pd.notna(rec.get("travel_time_minutes")):
+        meta.append(f"⏱️ {int(rec['travel_time_minutes'])}分")
+
     if meta:
         st.caption(" ・ ".join(meta))
 
