@@ -1,9 +1,6 @@
 ## What this app does
 Personal database of kids-friendly places in Switzerland.
-
-
-
-##Deploy Link
+Deploy Link:
 https://zitatori-switzerland-kids-friendly-place-streamlit-app-jiwb1k.streamlit.app/
 
 ## Key features
